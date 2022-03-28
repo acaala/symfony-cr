@@ -31,6 +31,12 @@ class PageController extends AbstractController
         $html = $cacheHelper->cache($slug);
         return $this->render('index.html.twig', [ 'html' => $html ]);
     }
+    #[Route('/{slug}/{nestedSlug}')]
+    public function nestedPage(string $slug, string $nestedSlug, CacheHelper $cacheHelper): Response 
+    {   
+        $html = $cacheHelper->cache($slug, $nestedSlug);
+        return $this->render('index.html.twig', [ 'html' => $html ]);
+    }
 
 
 }
