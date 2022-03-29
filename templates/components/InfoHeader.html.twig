@@ -1,0 +1,4 @@
+<div class="bg-gray-700 py-2 px-4 text-center">
+{% set time = time ? time * 1000 : '-' %}
+    <h2 class="tracking-widest text-base title-font font-medium text-gray-400">Time: {{time|round(2, 'floor')}} ms</h2>
+</div>

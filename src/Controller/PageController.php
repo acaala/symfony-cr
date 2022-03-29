@@ -20,22 +20,25 @@ class PageController extends AbstractController
     #[Route('/')]
     public function homepage(CacheHelper $cacheHelper): Response
     {
+        $t = microtime(true); 
         $html = $cacheHelper->cache('/');
-        return $this->render('index.html.twig', [ 'html' => $html ]);
+        return $this->render('index.html.twig', [ 'html' => $html, 'time' => (microtime(true) - $t) ]);
     }
     
     
     #[Route('/{slug}')]
     public function page(string $slug, CacheHelper $cacheHelper): Response 
-    {   
+    {  
+        $t = microtime(true); 
         $html = $cacheHelper->cache($slug);
-        return $this->render('index.html.twig', [ 'html' => $html ]);
+        return $this->render('index.html.twig', [ 'html' => $html, 'time' => (microtime(true) - $t) ]);
     }
     #[Route('/{slug}/{nestedSlug}')]
     public function nestedPage(string $slug, string $nestedSlug, CacheHelper $cacheHelper): Response 
     {   
+        $t = microtime(true); 
         $html = $cacheHelper->cache($slug, $nestedSlug);
-        return $this->render('index.html.twig', [ 'html' => $html ]);
+        return $this->render('index.html.twig', [ 'html' => $html, 'time' => (microtime(true) - $t) ]);
     }
 
 
