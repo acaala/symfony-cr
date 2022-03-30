@@ -14,14 +14,16 @@ class PageController extends AbstractController
     #[Route('/admin', name: 'app_admin')]
     public function admin(): Response
     {
+        
         return $this->render('admin.html.twig');
     }
     
-    #[Route('/admin-{slug}-clear', name: 'app_admin_clear')]
+    #[Route('/admin/{slug}/clear', name: 'app_admin_clear')]
     public function adminCacheClear(CacheHelper $cacheHelper, string $slug): Response
     {   
         if($slug == 'home') $slug = '/';
-        return $this->redirectToRoute('app_admin', [ 'message' => $cacheHelper->cacheClear($slug) ]);
+        $cacheClearStatus = $this->addFlash('cacheClearStatus' . $slug, $cacheHelper->cacheClear($slug));
+        return $this->redirectToRoute('app_admin', [ $cacheClearStatus ]);
     }
 
     #[Route('/')]

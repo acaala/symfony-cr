@@ -5,14 +5,12 @@ namespace App\Services;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class CacheHelper {
-
     private $cache;
 
     public function __construct(CacheInterface $cache)
     {
         $this->cache = $cache;
     }
-
 
     public function cache(string $source, string $nestedUrl = null): array 
     {   
@@ -36,8 +34,7 @@ class CacheHelper {
         } else {
             $url = 'https://development.coinrivet.com/'.$source;
         }
-        $this->cache->delete('page_'.md5($url));
-        return $url . 'Cache Cleared';
+        return $this->cache->delete('page_'.md5($url));
     }
 
     public function cacheInfo(string $source, string $nestedUrl = null): array

@@ -2,6 +2,12 @@
     "monolog/monolog": {
         "version": "2.4.0"
     },
+    "ocramius/proxy-manager": {
+        "version": "1.0.2"
+    },
+    "predis/predis": {
+        "version": "v1.1.10"
+    },
     "psr/cache": {
         "version": "3.0.0"
     },
@@ -13,6 +19,18 @@
     },
     "psr/log": {
         "version": "3.0.0"
+    },
+    "snc/redis-bundle": {
+        "version": "4.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "36b3d9ab65be62de4e085a25e6ca899efa96b1f3"
+        },
+        "files": [
+            "config/packages/snc_redis.yaml"
+        ]
     },
     "symfony/apache-pack": {
         "version": "1.0",
@@ -240,5 +258,17 @@
     },
     "twig/twig": {
         "version": "v3.3.9"
+    },
+    "zendframework/zend-code": {
+        "version": "2.6.2"
+    },
+    "zendframework/zend-eventmanager": {
+        "version": "2.6.2"
+    },
+    "zendframework/zend-hydrator": {
+        "version": "1.0.0"
+    },
+    "zendframework/zend-stdlib": {
+        "version": "2.7.4"
     }
 }
