@@ -1,4 +1,8 @@
-<div class="bg-gray-700 py-2 px-4 text-center">
-{% set time = time ? time * 1000 : '-' %}
-    <h2 class="tracking-widest text-base title-font font-medium text-gray-400">Time: {{time|round(2, 'floor')}} ms</h2>
+<div class="bg-gray-700 py-2 px-4 text-center flex w-full items-center">
+    <a href="/admin" class="sm:text-3xl text-2xl font-medium title-font text-gray-100">Admin</a>
+    <div class="flex space-x-10 w-full justify-center">
+        {% set time = time ? time * 1000 : '-' %}
+        <h2 class="tracking-widest text-base title-font font-medium text-gray-400 mb-0">Time: {{time|round(2, 'floor')}} ms</h2>
+        <h2 class="tracking-widest text-base title-font font-medium text-gray-400 mb-0">Size: {{size ? size : '-'}} Bytes</h2>
+    </div>
 </div>

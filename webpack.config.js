@@ -61,7 +61,12 @@ Encore
     // uncomment if you use TypeScript
     .enableTypeScriptLoader()
 
-    .enablePostCssLoader()
+    .enablePostCssLoader((options) => {
+        // new option outlined here https://webpack.js.org/loaders/postcss-loader/
+        options.postcssOptions = {
+          config: './postcss.config.js',
+        }
+      })
 
     // uncomment if you use React
     //.enableReactPreset()

@@ -16,29 +16,37 @@ class PageController extends AbstractController
     {
         return $this->render('admin.html.twig');
     }
+    
+    #[Route('/admin-{slug}-clear', name: 'app_admin_clear')]
+    public function adminCacheClear(CacheHelper $cacheHelper, string $slug): Response
+    {   
+        if($slug == 'home') $slug = '/';
+        return $this->redirectToRoute('app_admin', [ 'message' => $cacheHelper->cacheClear($slug) ]);
+    }
 
     #[Route('/')]
     public function homepage(CacheHelper $cacheHelper): Response
     {
-        $t = microtime(true); 
-        $html = $cacheHelper->cache('/');
-        return $this->render('index.html.twig', [ 'html' => $html, 'time' => (microtime(true) - $t) ]);
+        $page = $cacheHelper->cache('/');
+        $size = mb_strlen($page['html'], '8bit');
+        return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
     }
-    
     
     #[Route('/{slug}')]
-    public function page(string $slug, CacheHelper $cacheHelper): Response 
+    public function page(string $slug = null, CacheHelper $cacheHelper): Response 
     {  
-        $t = microtime(true); 
-        $html = $cacheHelper->cache($slug);
-        return $this->render('index.html.twig', [ 'html' => $html, 'time' => (microtime(true) - $t) ]);
+        $page = $cacheHelper->cache($slug);
+        dump($page);
+        $size = mb_strlen($page['html'], '8bit');
+        return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
     }
+
     #[Route('/{slug}/{nestedSlug}')]
     public function nestedPage(string $slug, string $nestedSlug, CacheHelper $cacheHelper): Response 
     {   
-        $t = microtime(true); 
-        $html = $cacheHelper->cache($slug, $nestedSlug);
-        return $this->render('index.html.twig', [ 'html' => $html, 'time' => (microtime(true) - $t) ]);
+        $page = $cacheHelper->cache($slug, $nestedSlug);
+        $size = mb_strlen($page['html'], '8bit');
+        return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
     }
 
 
