@@ -10,3 +10,4 @@ snc_redis:
             type: phpredis
             alias: default
             dsn: "%env(REDIS_URI)%"
+            logging: '%kernel.debug%'
