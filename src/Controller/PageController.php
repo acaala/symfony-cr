@@ -40,7 +40,6 @@ class PageController extends AbstractController
     public function page(string $slug = null, CacheHelper $cacheHelper): Response 
     {  
         $page = $cacheHelper->cache($slug);
-        dump($page);
         $size = mb_strlen($page['html'], '8bit');
         return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
     }
