@@ -3,19 +3,21 @@
 namespace App\Controller;
 
 use App\Services\CacheHelper;
+use App\Services\LocationHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Twig\Environment;
+
 
 class PageController extends AbstractController
 {
     
     #[Route('/admin', name: 'app_admin')]
-    public function admin(): Response
+    public function admin(LocationHelper $locationHelper): Response
     {
-        
-        return $this->render('admin.html.twig');
+        $countryCode = $locationHelper->getCountryCode();
+        return $this->render('admin.html.twig', ['cc' => $countryCode]);
     }
     
     #[Route('/admin/{slug}/clear', name: 'app_admin_clear')]
