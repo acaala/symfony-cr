@@ -25,7 +25,7 @@ class CacheHelper {
         $html = $this->cache->get('page_'.md5($url), function() use ($url) {
             $contents = file_get_contents($url);
             $contents = str_replace('<a href="https://development.coinrivet.com/', '<a href="'.getenv('SITE_URL'), $contents);
-            $contents = str_replace('src="https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/main.js?v=1.0.80"', 'src="https://localhost:8000/scripts/main.js"', $contents);
+            $contents = str_replace('src="https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/main.js?v=1.0.80"', 'src="'.getenv('SITE_URL').'main.js"', $contents);
             return $contents;
         });
         $time = microtime(true) - $t;
