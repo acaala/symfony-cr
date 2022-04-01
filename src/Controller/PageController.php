@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Services\CacheHelper;
 use App\Services\LocationHelper;
-use JetBrains\PhpStorm\Pure;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -36,17 +35,24 @@ class PageController extends AbstractController
         return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
     }
 
-    #[Route('/scripts/{slug}')]
-    public function script(CacheHelper $cacheHelper): Response
+    #[Route('/scripts/{slug}', name: 'app_fetch_js')]
+    public function script(CacheHelper $cacheHelper, string $slug): Response
     {
-        $script = $cacheHelper->cacheScripts('main.js');
+        $script = $cacheHelper->cacheScripts($slug);
         return new Response($script, 200, [ 'content-type' => 'text/javascript']);
     }
 
-    
+    #[Route('/scripts-info/{slug}', name: 'app_fetch_js_info')]
+    public function scriptInfo(CacheHelper $cacheHelper, string $slug): Response
+    {
+        $script = $cacheHelper->cacheScriptsInfo($slug);
+        $this->addFlash('jsCacheInfo' . $slug, $script);
+        return $this->redirectToRoute('app_admin');
+    }
+
     #[Route('/{slug}')]
-    public function page(string $slug = null, CacheHelper $cacheHelper): Response 
-    {  
+    public function page(string $slug = null, CacheHelper $cacheHelper): Response
+    {
         $page = $cacheHelper->cache($slug);
         $size = mb_strlen($page['html'], '8bit');
         return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Contracts\Cache\CacheInterface;
 
 class CacheHelper {
@@ -14,6 +15,7 @@ class CacheHelper {
         $this->baseURL = 'https://development.coinrivet.com/';
     }
 
+    #[ArrayShape(['html' => "mixed", 'time' => ""])]
     public function cache(string $source, string $nestedUrl = null): array
     {   
         $t = microtime(true);
@@ -25,7 +27,8 @@ class CacheHelper {
         $html = $this->cache->get('page_'.md5($url), function() use ($url) {
             $contents = file_get_contents($url);
             $contents = str_replace('<a href="https://development.coinrivet.com/', '<a href="'.getenv('SITE_URL'), $contents);
-            $contents = str_replace('src="https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/main.js?v=1.0.80"', 'src="'.getenv('SITE_URL').'main.js"', $contents);
+            $contents = str_replace('src="https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/main.js?v=1.0.80"', 'src="'.getenv('SITE_URL').'scripts/main.js"', $contents);
+            $contents = str_replace('src="https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/landing.js?v=1.0.80"', 'src="'.getenv('SITE_URL').'scripts/landing.js"', $contents);
             return $contents;
         });
         $time = microtime(true) - $t;
@@ -52,6 +55,23 @@ class CacheHelper {
         return $script;
     }
 
+//    Caching info helpers
+    #[ArrayShape(['size' => "false|int", 'time' => "float|int"])]
+    public function cacheScriptsInfo(string $source): array
+    {
+        $t = microtime(true);
+        $v = '?v=1.0.80';
+        $url = $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/'.$source.$v;
+        $size = $this->cache->get('script_'.md5($url), function() use ($url) {
+            return file_get_contents($url);
+        });
+        $size = mb_strlen($size, '8bit');
+        $time = (microtime(true) - $t) * 1000;
+
+        return ['size' => $size, 'time' => $time];
+    }
+
+    #[ArrayShape(['size' => "false|int", 'time' => "float|int"])]
     public function cacheInfo(string $source, string $nestedUrl = null): array
     {
         $t = microtime(true);

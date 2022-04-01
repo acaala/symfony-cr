@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="p-4 md:w-1/3">
+        <div class="flex rounded-lg h-full bg-gray-100 p-8 flex-col relative">
+{#            {% for message in app.flashes('cacheClearStatus' ~ slug) %}#}
+{#                <p class="absolute top-1 right-8 {{ message == '1' ? 'text-green-600' : 'text-red-600'}}">{{ message == '1' ? 'Cache Cleared' : message }}</p>#}
+{#            {% endfor %}#}
+            <div class="flex items-center mb-3">
+                <div class="w-8 h-8 mr-3 inline-flex items-center justify-center rounded-full bg-indigo-500 text-white flex-shrink-0">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewbox="0 0 24 24">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                </div>
+                <h2 class="text-gray-900 text-lg title-font font-medium hover:text-gray-800"><a class="capitalize">{{title}}</a></h2>
+            </div>
+            <div class="flex-grow mb-5">
+                {% set time = '-' %}
+                {% set size = '-' %}
+                {% for message in app.flashes('jsCacheInfo' ~ title) %}
+                    {% set time = message.time %}
+                    {% set size = message.size %}
+                {% endfor %}
+                    <p class="tracking-widest text-base title-font font-medium text-gray-400">Time: <span class="text-gray-800 font-bold">{{time|round(2, 'floor')}} ms</span></p>
+                    <p class="tracking-widest text-base title-font font-medium text-gray-400">Size: <span class="text-gray-800 font-bold">{{size}} Bytes</span></p>
+            </div>
+            <div class="flex space-x-2">
+                <a href="{{path('app_fetch_js_info', {'slug': title})}}" class="w-full text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg text-center">Get Cache</a>
+                <a href="{{path('app_admin_clear', {'slug': title})}}" class="w-full text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg text-center">Clear Cache</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
