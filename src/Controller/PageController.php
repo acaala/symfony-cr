@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Services\CacheHelper;
 use App\Services\LocationHelper;
+use JetBrains\PhpStorm\Pure;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -12,20 +13,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
-    
     #[Route('/admin', name: 'app_admin')]
     public function admin(LocationHelper $locationHelper): Response
     {
         $countryCode = $locationHelper->getCountryCode();
         return $this->render('admin.html.twig', ['cc' => $countryCode]);
     }
-    
+
     #[Route('/admin/{slug}/clear', name: 'app_admin_clear')]
     public function adminCacheClear(CacheHelper $cacheHelper, string $slug): Response
     {   
         if($slug == 'home') $slug = '/';
-        $cacheClearStatus = $this->addFlash('cacheClearStatus' . $slug, $cacheHelper->cacheClear($slug));
-        return $this->redirectToRoute('app_admin', [ $cacheClearStatus ]);
+        $this->addFlash('cacheClearStatus' . $slug, $cacheHelper->cacheClear($slug));
+        return $this->redirectToRoute('app_admin');
     }
 
     #[Route('/')]
@@ -35,6 +35,14 @@ class PageController extends AbstractController
         $size = mb_strlen($page['html'], '8bit');
         return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
     }
+
+    #[Route('/scripts/{slug}')]
+    public function script(CacheHelper $cacheHelper): Response
+    {
+        $script = $cacheHelper->cacheScripts('main.js');
+        return new Response($script, 200, [ 'content-type' => 'text/javascript']);
+    }
+
     
     #[Route('/{slug}')]
     public function page(string $slug = null, CacheHelper $cacheHelper): Response 
@@ -52,5 +60,6 @@ class PageController extends AbstractController
         return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
     }
 
+    
 
 }
