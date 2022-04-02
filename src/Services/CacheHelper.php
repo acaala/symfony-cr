@@ -36,13 +36,14 @@ class CacheHelper {
             'icon/favicon-16x16.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/favicon-16x16.png',
             'icon/favicon-32x32.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/favicon-32x32.png',
 //            'en-gb' => 'https://development.coinrivet.com/',
-            'fr' => 'https://development.coinrivet.com/fr/',
-            'de' => 'https://development.coinrivet.com/de/',
-            'it' => 'https://development.coinrivet.com/it/',
-            'ru' => 'https://development.coinrivet.com/ru/',
-            'pt' => 'https://development.coinrivet.com/pt/',
-            'es' => 'https://development.coinrivet.com/es/',
-            'ja' => 'https://development.coinrivet.com/ja/'
+            'lang/fr' => 'https://development.coinrivet.com/fr/',
+            'lang/de' => 'https://development.coinrivet.com/de/',
+            'lang/it' => 'https://development.coinrivet.com/it/',
+            'lang/ru' => 'https://development.coinrivet.com/ru/',
+            'lang/pt' => 'https://development.coinrivet.com/pt/',
+            'lang/es' => 'https://development.coinrivet.com/es/',
+            'lang/ja' => 'https://development.coinrivet.com/ja/',
+            'manifest/manifest.json' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/manifest.json'
         ];
     }
 

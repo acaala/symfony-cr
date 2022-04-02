@@ -63,6 +63,20 @@ class PageController extends AbstractController
         $script = $cacheHelper->cacheAsset('icon/'.$slug);
         return new Response($script, 200, [ 'content-type' => 'image/png']);
     }
+    // Cache Icons
+    #[Route('/assets/manifest/{slug}', name: 'app_fetch_manifest')]
+    public function manifest(CacheHelper $cacheHelper, string $slug): Response
+    {
+        $manifest = $cacheHelper->cacheAsset('manifest/'.$slug);
+        return new Response($manifest, 200, [ 'content-type' => 'html/text']);
+    }
+    // Cache Icons
+    #[Route('/assets/lang/{slug}', name: 'app_fetch_lang')]
+    public function language(CacheHelper $cacheHelper, string $slug): Response
+    {
+        $lang = $cacheHelper->cacheAsset('lang/'.$slug);
+        return new Response($lang, 200, [ 'content-type' => 'html/text']);
+    }
 
     #[Route('/scripts-info/{slug}', name: 'app_fetch_js_info')]
     public function scriptInfo(CacheHelper $cacheHelper, string $slug): Response
