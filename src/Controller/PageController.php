@@ -28,31 +28,33 @@ class PageController extends AbstractController
     #[Route('/')]
     public function homepage(CacheHelper $cacheHelper): Response
     {
-
         $page = $cacheHelper->cache('/');
         $size = mb_strlen($page['html'], '8bit');
         return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
     }
 
+    // Cache all assets
     #[Route('/assets/cache-all', name: 'app_cache_assets')]
     public function assets(CacheHelper $cacheHelper): Response
     {
         $cacheHelper->cacheAllAssets();
         return $this->redirectToRoute('app_admin');
     }
+
+    // Cache specific stylesSheet
     #[Route('/assets/css/{slug}', name: 'app_fetch_css')]
     public function css(CacheHelper $cacheHelper, string $slug): Response
     {
         $styles = $cacheHelper->cacheAsset('css/'.$slug);
         return new Response($styles, 200, [ 'content-type' => 'text/css']);
     }
+    // Cache specific script
     #[Route('/assets/scripts/{slug}', name: 'app_fetch_js')]
     public function script(CacheHelper $cacheHelper, string $slug): Response
     {
         $script = $cacheHelper->cacheAsset('scripts/'.$slug);
         return new Response($script, 200, [ 'content-type' => 'text/javascript']);
     }
-
 
     #[Route('/scripts-info/{slug}', name: 'app_fetch_js_info')]
     public function scriptInfo(CacheHelper $cacheHelper, string $slug): Response
@@ -63,7 +65,7 @@ class PageController extends AbstractController
     }
 
     #[Route('/{slug}')]
-    public function page(string $slug = null, CacheHelper $cacheHelper): Response
+    public function page(string $slug, CacheHelper $cacheHelper): Response
     {
         $page = $cacheHelper->cache($slug);
         $size = mb_strlen($page['html'], '8bit');
@@ -71,13 +73,10 @@ class PageController extends AbstractController
     }
 
     #[Route('/{slug}/{nestedSlug}')]
-    public function nestedPage(string $slug, string $nestedSlug, CacheHelper $cacheHelper): Response 
-    {   
+    public function nestedPage(string $slug, ?string $nestedSlug, CacheHelper $cacheHelper): Response
+    {
         $page = $cacheHelper->cache($slug, $nestedSlug);
         $size = mb_strlen($page['html'], '8bit');
         return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
     }
-
-    
-
 }

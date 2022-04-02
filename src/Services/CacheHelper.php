@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-//use App\Entity\Assets;
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -36,20 +35,12 @@ class CacheHelper {
     public function cache(string $source, string $nestedUrl = null, ): array
     {
         $t = microtime(true);
-        if($nestedUrl != null) {
-            $url = $this->baseURL.$source . '/' . $nestedUrl;
-        } else {
-            $url = $this->baseURL.$source;
-        }
-        $html = $this->cache->get('page_'.md5($url), function() use ($url) {
-            $htmlString = file_get_contents($url);
-            return $this->scrubHelper->scrubUrls($htmlString, $this->assetUrls);
-        });
+        $html = $this->getHtml($nestedUrl, $source);
         $time = microtime(true) - $t;
         return ['html' => $html, 'time' => $time];
     }
 
-    public function cacheClear(string $source, string $nestedUrl = null): string
+    public function cacheClear(string $source, ?string $nestedUrl = null): string
     {
         if($nestedUrl != null) {
             $url = $this->baseURL.$source . '/' . $nestedUrl;
@@ -75,7 +66,6 @@ class CacheHelper {
         };
     }
 
-
 //    Caching info helpers
     #[ArrayShape(['size' => "false|int", 'time' => "float|int"])]
     public function cacheScriptsInfo(string $source): array
@@ -97,19 +87,30 @@ class CacheHelper {
     {
         $t = microtime(true);
         if($source == 'home') $source = '/';
-        if($nestedUrl != null) {
-            $url = $this->baseURL.$source . '/' . $nestedUrl;
-        } else {
-            $url = $this->baseURL.$source;
-        }
-        $size = $this->cache->get('page_'.md5($url), function() use ($url) {
-            $htmlString = file_get_contents($url);
-            return $this->scrubHelper->scrubUrls($htmlString, $this->assetUrls);
-        });
+        $size = $this->getHtml($nestedUrl, $source);
 
         $size = mb_strlen($size, '8bit');
         $time = (microtime(true) - $t) * 1000;
         
         return ['size' => $size, 'time' => $time];
+    }
+
+    /**
+     * @param string|null $nestedUrl
+     * @param string $source
+     * @return mixed
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    public function getHtml(?string $nestedUrl, string $source): mixed
+    {
+        if ($nestedUrl != null) {
+            $url = $this->baseURL . $source . '/' . $nestedUrl;
+        } else {
+            $url = $this->baseURL . $source;
+        }
+        return $this->cache->get('page_' . md5($url), function () use ($url) {
+            $htmlString = file_get_contents($url);
+            return $this->scrubHelper->scrubUrls($htmlString, $this->assetUrls);
+        });
     }
 }
