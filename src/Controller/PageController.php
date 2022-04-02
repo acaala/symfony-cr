@@ -56,6 +56,14 @@ class PageController extends AbstractController
         return new Response($script, 200, [ 'content-type' => 'text/javascript']);
     }
 
+    // Cache Icons
+    #[Route('/assets/icon/{slug}', name: 'app_fetch_icon')]
+    public function icons(CacheHelper $cacheHelper, string $slug): Response
+    {
+        $script = $cacheHelper->cacheAsset('icon/'.$slug);
+        return new Response($script, 200, [ 'content-type' => 'image/png']);
+    }
+
     #[Route('/scripts-info/{slug}', name: 'app_fetch_js_info')]
     public function scriptInfo(CacheHelper $cacheHelper, string $slug): Response
     {

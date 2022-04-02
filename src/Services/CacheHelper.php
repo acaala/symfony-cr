@@ -20,6 +20,7 @@ class CacheHelper {
             'scripts/runtime.js' => 'https://development.coinrivet.com/wp-includes/js/dist/vendor/regenerator-runtime.min.js',
             'scripts/main.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/main.js?v=1.0.80',
             'scripts/landing.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/landing.js?v=1.0.80',
+            'scripts/prices.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/prices.js?v=1.0.80',
             'scripts/polyfill.js' => 'https://development.coinrivet.com/wp-includes/js/dist/vendor/wp-polyfill.min.js',
             'scripts/cr7.js' => 'https://development.coinrivet.com/wp-content/plugins/contact-form-7/includes/js/index.js',
             'scripts/emailSubscribers.js' => 'https://development.coinrivet.com/wp-content/plugins/email-subscribers/lite/public/js/email-subscribers-public.js',
@@ -28,6 +29,20 @@ class CacheHelper {
             'css/style.min.css' => 'https://development.coinrivet.com/wp-includes/css/dist/block-library/style.min.css',
             'css/cr7.css' => 'https://development.coinrivet.com/wp-content/plugins/contact-form-7/includes/css/styles.css',
             'css/emailSubscribers.css' => 'https://development.coinrivet.com/wp-content/plugins/email-subscribers/lite/public/css/email-subscribers-public.css',
+            'icon/favicon.ico' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/favicon.ico',
+            'icon/apple-touch-icon.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/apple-touch-icon.png',
+            'icon/android-chrome-192x192.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/android-chrome-192x192.png',
+            'icon/android-chrome-512x512.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/android-chrome-512x512.png',
+            'icon/favicon-16x16.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/favicon-16x16.png',
+            'icon/favicon-32x32.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/favicon-32x32.png',
+//            'en-gb' => 'https://development.coinrivet.com/',
+            'fr' => 'https://development.coinrivet.com/fr/',
+            'de' => 'https://development.coinrivet.com/de/',
+            'it' => 'https://development.coinrivet.com/it/',
+            'ru' => 'https://development.coinrivet.com/ru/',
+            'pt' => 'https://development.coinrivet.com/pt/',
+            'es' => 'https://development.coinrivet.com/es/',
+            'ja' => 'https://development.coinrivet.com/ja/'
         ];
     }
 
