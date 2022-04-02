@@ -5,10 +5,8 @@ namespace App\Controller;
 use App\Services\CacheHelper;
 use App\Services\LocationHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
 
 class PageController extends AbstractController
 {
@@ -30,17 +28,31 @@ class PageController extends AbstractController
     #[Route('/')]
     public function homepage(CacheHelper $cacheHelper): Response
     {
+
         $page = $cacheHelper->cache('/');
         $size = mb_strlen($page['html'], '8bit');
         return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
     }
 
-    #[Route('/scripts/{slug}', name: 'app_fetch_js')]
+    #[Route('/assets/cache-all', name: 'app_cache_assets')]
+    public function assets(CacheHelper $cacheHelper): Response
+    {
+        $cacheHelper->cacheAllAssets();
+        return $this->redirectToRoute('app_admin');
+    }
+    #[Route('/assets/css/{slug}', name: 'app_fetch_css')]
+    public function css(CacheHelper $cacheHelper, string $slug): Response
+    {
+        $styles = $cacheHelper->cacheAsset('css/'.$slug);
+        return new Response($styles, 200, [ 'content-type' => 'text/css']);
+    }
+    #[Route('/assets/scripts/{slug}', name: 'app_fetch_js')]
     public function script(CacheHelper $cacheHelper, string $slug): Response
     {
-        $script = $cacheHelper->cacheScripts($slug);
+        $script = $cacheHelper->cacheAsset('scripts/'.$slug);
         return new Response($script, 200, [ 'content-type' => 'text/javascript']);
     }
+
 
     #[Route('/scripts-info/{slug}', name: 'app_fetch_js_info')]
     public function scriptInfo(CacheHelper $cacheHelper, string $slug): Response
