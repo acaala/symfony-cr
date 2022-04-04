@@ -53,10 +53,10 @@ class CacheHelper {
     }
 
     #[ArrayShape(['html' => "mixed", 'time' => ""])]
-    public function cache(string $source, string $nestedUrl = null, ): array
+    public function cache(string $source, string $nestedUrl = null, string $article = null): array
     {
         $t = microtime(true);
-        $html = $this->getHtml($nestedUrl, $source);
+        $html = $this->getHtml($nestedUrl, $source, $article);
         $time = microtime(true) - $t;
         return ['html' => $html, 'time' => $time];
     }
@@ -104,11 +104,11 @@ class CacheHelper {
     }
 
     #[ArrayShape(['size' => "false|int", 'time' => "float|int"])]
-    public function cacheInfo(string $source, string $nestedUrl = null): array
+    public function cacheInfo(string $source, ?string $nestedUrl = null, ?string $article = null): array
     {
         $t = microtime(true);
         if($source == 'home') $source = '/';
-        $size = $this->getHtml($nestedUrl, $source);
+        $size = $this->getHtml($nestedUrl, $source, $article);
 
         $size = mb_strlen($size, '8bit');
         $time = (microtime(true) - $t) * 1000;
@@ -122,9 +122,11 @@ class CacheHelper {
      * @return mixed
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function getHtml(?string $nestedUrl, string $source): mixed
+    public function getHtml(?string $nestedUrl, string $source, ?string $article): mixed
     {
-        if ($nestedUrl != null) {
+        if ($nestedUrl && $article) {
+            $url = $this->baseURL . $source . '/' . $nestedUrl . '/' . $article;
+        } elseif ($nestedUrl) {
             $url = $this->baseURL . $source . '/' . $nestedUrl;
         } else {
             $url = $this->baseURL . $source;

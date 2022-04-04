@@ -25,6 +25,13 @@ class PageController extends AbstractController
         return $this->redirectToRoute('app_admin');
     }
 
+    #[Route('/admin/load-info/{slug}')]
+    public function loadInfo(string $slug): Response
+    {
+        $this->addFlash('showInfoFor', $slug);
+        return $this->redirectToRoute('app_admin');
+    }
+
     #[Route('/')]
     public function homepage(CacheHelper $cacheHelper): Response
     {
@@ -98,6 +105,14 @@ class PageController extends AbstractController
     public function nestedPage(string $slug, ?string $nestedSlug, CacheHelper $cacheHelper): Response
     {
         $page = $cacheHelper->cache($slug, $nestedSlug);
+        $size = mb_strlen($page['html'], '8bit');
+        return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
+    }
+
+    #[Route('/{slug}/{nestedSlug}/{article}')]
+    public function article(string $slug, ?string $nestedSlug, ?string $article, CacheHelper $cacheHelper): Response
+    {
+        $page = $cacheHelper->cache($slug, $nestedSlug, $article);
         $size = mb_strlen($page['html'], '8bit');
         return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);
     }

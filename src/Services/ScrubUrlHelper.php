@@ -9,6 +9,7 @@ class ScrubUrlHelper {
         foreach ($urls as $key => $value) {
             $keys[] = $_ENV['SITE_URL'] . 'assets/' . $key;
         }
-        return str_replace(array_values($urls), $keys, $stringToScrub);
+        $assetScrubbedString = str_replace(array_values($urls), $keys, $stringToScrub);
+        return str_replace('https://development.coinrivet.com/', $_ENV['SITE_URL'], $assetScrubbedString);
     }
 }
