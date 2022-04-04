@@ -21,6 +21,10 @@ class CacheHelper {
             'scripts/main.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/main.js?v=1.0.80',
             'scripts/landing.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/landing.js?v=1.0.80',
             'scripts/prices.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/prices.js?v=1.0.80',
+            'scripts/guides.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/guides.js?v=1.0.80',
+            'scripts/dictionary.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/dictionary.js?v=1.0.80',
+            'scripts/nft-calendar.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/nft-calendar.js?v=1.0.80',
+            'scripts/support.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/support.js?v=1.0.80',
             'scripts/polyfill.js' => 'https://development.coinrivet.com/wp-includes/js/dist/vendor/wp-polyfill.min.js',
             'scripts/cr7.js' => 'https://development.coinrivet.com/wp-content/plugins/contact-form-7/includes/js/index.js',
             'scripts/emailSubscribers.js' => 'https://development.coinrivet.com/wp-content/plugins/email-subscribers/lite/public/js/email-subscribers-public.js',
@@ -35,14 +39,15 @@ class CacheHelper {
             'icon/android-chrome-512x512.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/android-chrome-512x512.png',
             'icon/favicon-16x16.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/favicon-16x16.png',
             'icon/favicon-32x32.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/favicon-32x32.png',
-//            'en-gb' => 'https://development.coinrivet.com/',
-            'lang/fr' => 'https://development.coinrivet.com/fr/',
-            'lang/de' => 'https://development.coinrivet.com/de/',
-            'lang/it' => 'https://development.coinrivet.com/it/',
-            'lang/ru' => 'https://development.coinrivet.com/ru/',
-            'lang/pt' => 'https://development.coinrivet.com/pt/',
-            'lang/es' => 'https://development.coinrivet.com/es/',
-            'lang/ja' => 'https://development.coinrivet.com/ja/',
+            'icon/landing-bitcoin-1.svg' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/images/landing-bitcoin.svg',
+//            getenv('SITE_URL') => 'https://development.coinrivet.com/',
+            'lang/fr/' => 'https://development.coinrivet.com/fr/',
+            'lang/de/' => 'https://development.coinrivet.com/de/',
+            'lang/it/' => 'https://development.coinrivet.com/it/',
+            'lang/ru/' => 'https://development.coinrivet.com/ru/',
+            'lang/pt/' => 'https://development.coinrivet.com/pt/',
+            'lang/es/' => 'https://development.coinrivet.com/es/',
+            'lang/ja/' => 'https://development.coinrivet.com/ja/',
             'manifest/manifest.json' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/manifest.json'
         ];
     }
@@ -122,7 +127,8 @@ class CacheHelper {
         if ($nestedUrl != null) {
             $url = $this->baseURL . $source . '/' . $nestedUrl;
         } else {
-            $url = $this->baseURL . $source;
+//            $url = $this->baseURL . $source;
+            $url = 'https://coinrivet.com' . $source;
         }
         return $this->cache->get('page_' . md5($url), function () use ($url) {
             $htmlString = file_get_contents($url);
