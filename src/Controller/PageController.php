@@ -22,6 +22,7 @@ class PageController extends AbstractController
     {   
         if($slug == 'home') $slug = '/';
         $this->addFlash('cacheClearStatus' . $slug, $cacheHelper->cacheClear($slug));
+        $this->addFlash('showInfoFor', $slug);
         return $this->redirectToRoute('app_admin');
     }
 

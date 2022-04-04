@@ -30,12 +30,31 @@
 						{% include "components/PageCard.html.twig" with {title: card} %}
 					{% endfor %}
 				</div>
-
 			</div>
-
-			<div class="flex flex-wrap">
-				{% include "components/JSCard.html.twig" with {title: 'main.js'} %}
-				{% include "components/JSCard.html.twig" with {title: 'landing.js'} %}
+			<div class="mt-12">
+				<h2 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Assets</h2>
+				<div class="flex items-center mb-2 space-x-2">
+					<p class="flex-shrink tracking-widest text-base title-font font-medium text-gray-400">Find Info for:</p>
+					<div class="flex-grow flex items-center max-w-md bg-white rounded-lg border-gray-400 border">
+						<div class="w-full">
+							<input type="search" class="w-full px-4 py-1 text-gray-800 rounded-full focus:outline-none js-target-card" name="target" placeholder="Use key e.g 'main.js', 'prices.js'" onkeyup="findCardInfo(event)">
+						</div>
+						<div>
+							<button type="submit" class="flex items-center bg-blue-500 justify-center w-12 h-12 text-white rounded-r-lg">
+								<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+									 xmlns="http://www.w3.org/2000/svg">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+										  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="flex flex-wrap">
+					{% for card in app.flashes('showInfoFor') %}
+						{% include "components/JSCard.html.twig" with {title: card} %}
+					{% endfor %}
+				</div>
 			</div>
 		</div>
 	</section>
