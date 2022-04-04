@@ -127,8 +127,7 @@ class CacheHelper {
         if ($nestedUrl != null) {
             $url = $this->baseURL . $source . '/' . $nestedUrl;
         } else {
-//            $url = $this->baseURL . $source;
-            $url = 'https://coinrivet.com' . $source;
+            $url = $this->baseURL . $source;
         }
         return $this->cache->get('page_' . md5($url), function () use ($url) {
             $htmlString = file_get_contents($url);
