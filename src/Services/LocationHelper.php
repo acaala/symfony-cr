@@ -5,7 +5,7 @@ namespace App\Services;
 use Symfony\Component\HttpFoundation\Request;
 
 class LocationHelper {
-    private $request;
+    private Request $request;
 
     public function __construct() 
     {
