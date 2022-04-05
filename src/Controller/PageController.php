@@ -25,6 +25,18 @@ class PageController extends AbstractController
     #[Route('/{slug}')]
     public function page(string $slug, CacheHelper $cacheHelper): Response
     {
+        if(isset($_GET)) {
+            if($slug == 'nft-calendar') {
+                if(isset($_GET['q'])) {
+                    $slug = 'nft-calendar'.'?q='.$_GET['q'].'&date='.$_GET['date'].'&edate='.$_GET['edate'];
+                } else if(isset($_GET['date'])) {
+                    // Can only search between a date range so only needing to check one is fine.
+                    $slug = 'nft-calendar'.'?'.'&date='.$_GET['date'].'&edate='.$_GET['edate'];
+                }
+            } else if($slug == 'events-calendar') {
+                $slug = 'events-calendar?month='.$_GET['month'].'&country='.$_GET['country'].'&city='.$_GET['city'];
+            }
+        }
         $page = $cacheHelper->cache($slug);
         $size = mb_strlen($page['html'], '8bit');
         return $this->render('index.html.twig', [ 'html' => $page['html'], 'time' => $page['time'], 'size' => $size ]);

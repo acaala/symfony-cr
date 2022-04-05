@@ -10,37 +10,40 @@ class CacheHelper {
     private string $baseURL;
     private ScrubUrlHelper $scrubHelper;
     private array $assetUrls;
+    private string $v;
 
     public function __construct(CacheInterface $cache, ScrubUrlHelper $scrubUrlHelper)
     {
         $this->cache = $cache;
         $this->baseURL = 'https://development.coinrivet.com/';
+        $this->v = '?v=1.0.80';
         $this->scrubHelper = $scrubUrlHelper;
         $this->assetUrls = [
-            'scripts/runtime.js' => 'https://development.coinrivet.com/wp-includes/js/dist/vendor/regenerator-runtime.min.js',
-            'scripts/main.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/main.js?v=1.0.80',
-            'scripts/landing.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/landing.js?v=1.0.80',
-            'scripts/prices.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/prices.js?v=1.0.80',
-            'scripts/guides.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/guides.js?v=1.0.80',
-            'scripts/dictionary.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/dictionary.js?v=1.0.80',
-            'scripts/nft-calendar.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/nft-calendar.js?v=1.0.80',
-            'scripts/support.js' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/scripts/support.js?v=1.0.80',
-            'scripts/polyfill.js' => 'https://development.coinrivet.com/wp-includes/js/dist/vendor/wp-polyfill.min.js',
-            'scripts/cr7.js' => 'https://development.coinrivet.com/wp-content/plugins/contact-form-7/includes/js/index.js',
-            'scripts/emailSubscribers.js' => 'https://development.coinrivet.com/wp-content/plugins/email-subscribers/lite/public/js/email-subscribers-public.js',
-            'scripts/recaptcha.js' => 'https://development.coinrivet.com/wp-content/plugins/contact-form-7/modules/recaptcha/index.js',
-            'css/main.css' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/styles/main.css?v=1.0.80',
-            'css/style.min.css' => 'https://development.coinrivet.com/wp-includes/css/dist/block-library/style.min.css',
-            'css/cr7.css' => 'https://development.coinrivet.com/wp-content/plugins/contact-form-7/includes/css/styles.css',
-            'css/emailSubscribers.css' => 'https://development.coinrivet.com/wp-content/plugins/email-subscribers/lite/public/css/email-subscribers-public.css',
-            'icon/favicon.ico' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/favicon.ico',
-            'icon/apple-touch-icon.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/apple-touch-icon.png',
-            'icon/android-chrome-192x192.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/android-chrome-192x192.png',
-            'icon/android-chrome-512x512.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/android-chrome-512x512.png',
-            'icon/favicon-16x16.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/favicon-16x16.png',
-            'icon/favicon-32x32.png' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/favicon-32x32.png',
-            'icon/landing-bitcoin-1.svg' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/assets/images/landing-bitcoin.svg',
-            'manifest/manifest.json' => 'https://development.coinrivet.com/wp-content/themes/coinrivet/favicon/manifest.json'
+            'scripts/runtime.js' => $this->baseURL.'wp-includes/js/dist/vendor/regenerator-runtime.min.js',
+            'scripts/main.js' => $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/main.js'.$this->v,
+            'scripts/landing.js' => $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/landing.js'.$this->v,
+            'scripts/prices.js' => $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/prices.js'.$this->v,
+            'scripts/guides.js' => $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/guides.js'.$this->v,
+            'scripts/dictionary.js' => $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/dictionary.js'.$this->v,
+            'scripts/nft-calendar.js' => $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/nft-calendar.js'.$this->v,
+            'scripts/support.js' => $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/support.js'.$this->v,
+            'scripts/events.js' => $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/events.js'.$this->v,
+            'scripts/polyfill.js' => $this->baseURL.'wp-includes/js/dist/vendor/wp-polyfill.min.js',
+            'scripts/cr7.js' => $this->baseURL.'wp-content/plugins/contact-form-7/includes/js/index.js',
+            'scripts/emailSubscribers.js' => $this->baseURL.'wp-content/plugins/email-subscribers/lite/public/js/email-subscribers-public.js',
+            'scripts/recaptcha.js' => $this->baseURL.'wp-content/plugins/contact-form-7/modules/recaptcha/index.js',
+            'css/main.css' => $this->baseURL.'wp-content/themes/coinrivet/assets/styles/main.css?v=1.0.80',
+            'css/style.min.css' => $this->baseURL.'wp-includes/css/dist/block-library/style.min.css',
+            'css/cr7.css' => $this->baseURL.'wp-content/plugins/contact-form-7/includes/css/styles.css',
+            'css/emailSubscribers.css' => $this->baseURL.'wp-content/plugins/email-subscribers/lite/public/css/email-subscribers-public.css',
+            'icon/favicon.ico' => $this->baseURL.'wp-content/themes/coinrivet/favicon/favicon.ico',
+            'icon/apple-touch-icon.png' => $this->baseURL.'wp-content/themes/coinrivet/favicon/apple-touch-icon.png',
+            'icon/android-chrome-192x192.png' => $this->baseURL.'wp-content/themes/coinrivet/favicon/android-chrome-192x192.png',
+            'icon/android-chrome-512x512.png' => $this->baseURL.'wp-content/themes/coinrivet/favicon/android-chrome-512x512.png',
+            'icon/favicon-16x16.png' => $this->baseURL.'wp-content/themes/coinrivet/favicon/favicon-16x16.png',
+            'icon/favicon-32x32.png' => $this->baseURL.'wp-content/themes/coinrivet/favicon/favicon-32x32.png',
+            'icon/landing-bitcoin-1.svg' => $this->baseURL.'wp-content/themes/coinrivet/assets/images/landing-bitcoin.svg',
+            'manifest/manifest.json' => $this->baseURL.'wp-content/themes/coinrivet/favicon/manifest.json'
         ];
     }
 
@@ -77,6 +80,11 @@ class CacheHelper {
                 return file_get_contents($value);
             });
         };
+    }
+
+    public function getCachedAssets(): array
+    {
+        return $this->assetUrls;
     }
 
 //    Caching info helpers

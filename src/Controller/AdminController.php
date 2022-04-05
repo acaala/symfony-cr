@@ -13,10 +13,11 @@ class AdminController extends AbstractController
 {
 
     #[Route('/', name: 'app_admin')]
-    public function admin(LocationHelper $locationHelper): Response
+    public function admin(LocationHelper $locationHelper, CacheHelper $cacheHelper): Response
     {
         $countryCode = $locationHelper->getCountryCode();
-        return $this->render('admin.html.twig', ['cc' => $countryCode]);
+        $assets = $cacheHelper->getCachedAssets();
+        return $this->render('admin.html.twig', ['cc' => $countryCode, 'assets' => $assets]);
     }
 
     #[Route('/{slug}/clear', name: 'app_admin_clear')]

@@ -1,0 +1,12 @@
+<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 js-table-row">
+    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+        {{ key }}
+    </th>
+    <td class="px-6 py-4">
+        {{ value }}
+    </td>
+    <td class="px-6 py-4 text-right">
+{#        {% set title = preg_replace(key, '\w[^/]*') %}#}
+{#        <a href="{{path('app_admin_clear', {'slug': key|preg_replace('\w[^/]*', '')})}}" class="w-full text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg text-center">Clear Cache</a>#}
+    </td>
+</tr>
