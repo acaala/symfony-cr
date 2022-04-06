@@ -15,8 +15,8 @@ class CacheHelper {
     public function __construct(CacheInterface $cache, ScrubUrlHelper $scrubUrlHelper)
     {
         $this->cache = $cache;
-        $this->baseURL = 'https://development.coinrivet.com/';
-        $this->v = '?v=1.0.80';
+        $this->baseURL = $_ENV['TARGET_URL'];
+        $this->v = $_ENV['ASSET_V'];
         $this->scrubHelper = $scrubUrlHelper;
         $this->assetUrls = [
             'scripts/runtime.js' => $this->baseURL.'wp-includes/js/dist/vendor/regenerator-runtime.min.js',
@@ -32,7 +32,7 @@ class CacheHelper {
             'scripts/cr7.js' => $this->baseURL.'wp-content/plugins/contact-form-7/includes/js/index.js',
             'scripts/emailSubscribers.js' => $this->baseURL.'wp-content/plugins/email-subscribers/lite/public/js/email-subscribers-public.js',
             'scripts/recaptcha.js' => $this->baseURL.'wp-content/plugins/contact-form-7/modules/recaptcha/index.js',
-            'css/main.css' => $this->baseURL.'wp-content/themes/coinrivet/assets/styles/main.css?v=1.0.80',
+            'css/main.css' => $this->baseURL.'wp-content/themes/coinrivet/assets/styles/main.css'.$this->v,
             'css/style.min.css' => $this->baseURL.'wp-includes/css/dist/block-library/style.min.css',
             'css/cr7.css' => $this->baseURL.'wp-content/plugins/contact-form-7/includes/css/styles.css',
             'css/emailSubscribers.css' => $this->baseURL.'wp-content/plugins/email-subscribers/lite/public/css/email-subscribers-public.css',
@@ -92,8 +92,7 @@ class CacheHelper {
     public function cacheScriptsInfo(string $source): array
     {
         $t = microtime(true);
-        $v = '?v=1.0.80';
-        $url = $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/'.$source.$v;
+        $url = $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/'.$source.$this->v;
         $size = $this->cache->get('script_'.md5($url), function() use ($url) {
             return file_get_contents($url);
         });
@@ -116,13 +115,7 @@ class CacheHelper {
         return ['size' => $size, 'time' => $time];
     }
 
-    /**
-     * @param string|null $nestedUrl
-     * @param string $source
-     * @return mixed
-     * @throws \Psr\Cache\InvalidArgumentException
-     */
-    public function getHtml(?string $nestedUrl, string $source, ?string $article): mixed
+    public function getHtml(?string $nestedUrl, string $source, ?string $article): string
     {
         if ($nestedUrl && $article) {
             $url = $this->baseURL . $source . '/' . $nestedUrl . '/' . $article;

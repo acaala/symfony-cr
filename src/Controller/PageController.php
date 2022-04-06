@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
-
     #[Route('/')]
     public function homepage(CacheHelper $cacheHelper): Response
     {
