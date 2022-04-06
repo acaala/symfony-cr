@@ -42,7 +42,7 @@ class CacheHelper {
             'icon/android-chrome-512x512.png' => $this->baseURL.'wp-content/themes/coinrivet/favicon/android-chrome-512x512.png',
             'icon/favicon-16x16.png' => $this->baseURL.'wp-content/themes/coinrivet/favicon/favicon-16x16.png',
             'icon/favicon-32x32.png' => $this->baseURL.'wp-content/themes/coinrivet/favicon/favicon-32x32.png',
-            'icon/landing-bitcoin-1.svg' => $this->baseURL.'wp-content/themes/coinrivet/assets/images/landing-bitcoin.svg',
+//            'icon/landing-bitcoin-1.svg' => $this->baseURL.'wp-content/themes/coinrivet/assets/images/landing-bitcoin.svg',
             'manifest/manifest.json' => $this->baseURL.'wp-content/themes/coinrivet/favicon/manifest.json'
         ];
     }
