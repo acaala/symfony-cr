@@ -240,7 +240,7 @@
             "ref": "2858aeed7e1d81a45365c049eb533cc8827e380b"
         },
         "files": [
-            "assets/app.js",
+            "assets/app.ts",
             "assets/bootstrap.js",
             "assets/controllers.json",
             "assets/controllers/hello_controller.js",
