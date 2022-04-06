@@ -10,6 +10,7 @@ class ScrubUrlHelper {
             $keys[] = $_ENV['SITE_URL'] . 'assets/' . $key;
         }
         $assetScrubbedString = str_replace(array_values($urls), $keys, $stringToScrub);
-        return str_replace($_ENV['TARGET_URL'], $_ENV['SITE_URL'], $assetScrubbedString);
+        return $assetScrubbedString;
+//        return str_replace($_ENV['TARGET_URL'], $_ENV['SITE_URL'], $assetScrubbedString);
     }
 }
