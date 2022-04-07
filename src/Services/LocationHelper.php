@@ -12,11 +12,12 @@ class LocationHelper {
         $this->request = Request::createFromGlobals();;
     }
 
-    public function getCountryCode(): string
+    public function getCountryCode(): string|null
     {
-        $ip = $_ENV['APP_ENV'] == 'prod' ? $this->request->getClientIp() : '89.238.150.174';
+        $ip = $this->request->getClientIp();
         $json = file_get_contents('https://www.iplocate.io/api/lookup/' . $ip);
         $ipInfo = json_decode($json);
+        if($ipInfo->country_code == null) return 'unknown';
         return $ipInfo->country_code;
     }
 }
