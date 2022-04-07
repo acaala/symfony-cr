@@ -5,10 +5,10 @@ framework:
     http_method_override: false
 
     # the IP address (or range) of your proxy
-    trusted_proxies: '192.0.0.1,REMOTE_ADDR'
+    trusted_proxies: '%env(TRUSTED_PROXIES)%'
 
-    # trust *all* "X-Forwarded-*" headers
-    trusted_headers: [ 'x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port' ]
+    # trust "X-Forwarded-*" header
+    trusted_headers: 'x-forwarded-for'
 
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
