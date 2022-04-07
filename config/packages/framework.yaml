@@ -5,7 +5,7 @@ framework:
     http_method_override: false
 
     # the IP address (or range) of your proxy
-    trusted_proxies: '192.0.0.1,10.0.0.0/8'
+    trusted_proxies: '192.0.0.1,REMOTE_ADDR'
 
     # trust *all* "X-Forwarded-*" headers
     trusted_headers: [ 'x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port' ]
