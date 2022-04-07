@@ -11,9 +11,11 @@ class CacheHelper {
     private ScrubUrlHelper $scrubHelper;
     private array $assetUrls;
     private string $v;
+    private $locationHelper;
 
-    public function __construct(CacheInterface $cache, ScrubUrlHelper $scrubUrlHelper)
+    public function __construct(CacheInterface $cache, ScrubUrlHelper $scrubUrlHelper, LocationHelper $locationHelper)
     {
+        $this->locationHelper = $locationHelper;
         $this->cache = $cache;
         $this->baseURL = $_ENV['TARGET_URL'];
         $this->v = $_ENV['ASSET_V'];
@@ -115,17 +117,27 @@ class CacheHelper {
         return ['size' => $size, 'time' => $time];
     }
 
-    public function getHtml(?string $nestedUrl, string $source, ?string $article): string
+    public function getHtml(?string $nestedSlug, string $source, ?string $article): string
     {
-        if ($nestedUrl && $article) {
-            $url = $this->baseURL . $source . '/' . $nestedUrl . '/' . $article;
-        } elseif ($nestedUrl) {
-            $url = $this->baseURL . $source . '/' . $nestedUrl;
+        if ($nestedSlug && $article) {
+            $url = $this->baseURL . $source . '/' . $nestedSlug . '/' . $article;
+        } elseif ($nestedSlug) {
+            $url = $this->baseURL . $source . '/' . $nestedSlug;
         } else {
             $url = $this->baseURL . $source;
         }
-        return $this->cache->get('page_' . md5($url), function () use ($url) {
-            $htmlString = file_get_contents($url);
+        return $this->cache->get('page_' . md5($url).$this->locationHelper->getCountryCode(), function () use ($url) {
+            $opts = [
+                "http" => [
+                    "method" => "POST",
+                    'header' =>
+                        "Content-Type: application/x-www-form-urlencoded\r\n",
+                    'content' => $this->locationHelper->getCountryCode(),
+
+                ]
+            ];
+            $context = stream_context_create($opts);
+            $htmlString = file_get_contents($url, false, $context);
             return $this->scrubHelper->scrubUrls($htmlString, $this->assetUrls);
         });
     }

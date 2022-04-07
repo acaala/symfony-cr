@@ -10,18 +10,3 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
-
-
-let lastUrl = location.href;
-new MutationObserver(() => {
-    const url = location.href;
-    if (url !== lastUrl) {
-        lastUrl = url;
-        onUrlChange();
-    }
-}).observe(document, {subtree: true, childList: true});
-
-
-function onUrlChange() {
-    window.location.reload();
-}
