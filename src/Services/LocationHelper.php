@@ -15,8 +15,9 @@ class LocationHelper {
     public function getCountryCode(): string
     {
         $ip = $this->request->getClientIp();
-        $json = file_get_contents('https://www.iplocate.io/api/lookup/' . $ip);
-        $ipInfo = json_decode($json);
-        return $ipInfo->country_code;
+        dump($ip);
+//        $json = file_get_contents('https://www.iplocate.io/api/lookup/' . $ip);
+//        $ipInfo = json_decode($json);
+//        return $ipInfo->country_code;
     }
 }
