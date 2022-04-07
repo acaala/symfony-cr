@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Services\CacheHelper;
 use App\Services\LocationHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,10 +21,10 @@ class AdminController extends AbstractController
         return $this->render('admin.html.twig', ['cc' => $countryCode, 'assets' => $assets]);
     }
     #[Route('/recache/{slug}')]
-    public function recacheSlug(CacheHelper $cacheHelper, string $slug): Response
+    public function recacheSlug(CacheHelper $cacheHelper, string $slug, Request $request): Response
     {
         $cacheHelper->recacheSlug($slug);
-        return $this->json('recached : true');
+        return $this->json($request->getContent());
     }
 
     #[Route('/{slug}/clear', name: 'app_admin_clear')]
