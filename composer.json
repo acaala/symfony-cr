@@ -7,6 +7,7 @@
         "php": ">=8.0.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "nelmio/cors-bundle": "^2.2",
         "ocramius/proxy-manager": "^1.0",
         "predis/predis": "^1.1",
         "snc/redis-bundle": "^4.1",

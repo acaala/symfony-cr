@@ -117,6 +117,12 @@ class CacheHelper {
         return ['size' => $size, 'time' => $time];
     }
 
+    public function recacheSlug(string $source): void
+    {
+        $this->cache->delete('page_'.md5($source));
+        $this->getHtml(null, $source, null);
+    }
+
     public function getHtml(?string $nestedSlug, string $source, ?string $article): string
     {
         if ($nestedSlug && $article) {
@@ -126,7 +132,7 @@ class CacheHelper {
         } else {
             $url = $this->baseURL . $source;
         }
-        return $this->cache->get('page_' . md5($url).$this->locationHelper->getCountryCode(), function () use ($url) {
+        return $this->cache->get('page_' . md5($url).md5($this->locationHelper->getCountryCode()), function () use ($url) {
             $opts = [
                 "http" => [
                     "method" => "POST",

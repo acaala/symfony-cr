@@ -19,6 +19,12 @@ class AdminController extends AbstractController
         $assets = $cacheHelper->getCachedAssets();
         return $this->render('admin.html.twig', ['cc' => $countryCode, 'assets' => $assets]);
     }
+    #[Route('/recache/{slug}')]
+    public function recacheSlug(CacheHelper $cacheHelper, string $slug): Response
+    {
+        $cacheHelper->recacheSlug($slug);
+        return $this->json('recached : true');
+    }
 
     #[Route('/{slug}/clear', name: 'app_admin_clear')]
     public function adminCacheClear(CacheHelper $cacheHelper, string $slug): Response
