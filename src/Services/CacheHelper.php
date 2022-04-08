@@ -12,6 +12,7 @@ class CacheHelper {
     private array $assetUrls;
     private string $v;
     private $locationHelper;
+    private $restricted;
 
     public function __construct(CacheInterface $cache, ScrubUrlHelper $scrubUrlHelper, LocationHelper $locationHelper)
     {
@@ -47,6 +48,7 @@ class CacheHelper {
 //            'icon/landing-bitcoin-1.svg' => $this->baseURL.'wp-content/themes/coinrivet/assets/images/landing-bitcoin.svg',
             'manifest/manifest.json' => $this->baseURL.'wp-content/themes/coinrivet/favicon/manifest.json'
         ];
+        $this->restricted = ['/', 'faqs'];
     }
 
     #[ArrayShape(['html' => "mixed", 'time' => ""])]
@@ -132,7 +134,14 @@ class CacheHelper {
         } else {
             $url = $this->baseURL . $source;
         }
-        return $this->cache->get('page_' . md5($url).md5($this->locationHelper->getCountryCode()), function () use ($url) {
+
+        if(in_array($source, $this->restricted) || $this->locationHelper->getCountryCode() == 'US') {
+            $cacheKey = 'page_' . md5($url).($this->locationHelper->getCountryCode());
+        } else {
+            $cacheKey = 'page_' . md5($url);
+        };
+
+        return $this->cache->get($cacheKey, function () use ($url) {
             $opts = [
                 "http" => [
                     "method" => "POST",
