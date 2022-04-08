@@ -11,8 +11,9 @@ class CacheHelper {
     private ScrubUrlHelper $scrubHelper;
     private array $assetUrls;
     private string $v;
-    private $locationHelper;
-    private $restricted;
+    private LocationHelper $locationHelper;
+    private array $restricted;
+    private array $restrictedCountries;
 
     public function __construct(CacheInterface $cache, ScrubUrlHelper $scrubUrlHelper, LocationHelper $locationHelper)
     {
@@ -49,6 +50,7 @@ class CacheHelper {
             'manifest/manifest.json' => $this->baseURL.'wp-content/themes/coinrivet/favicon/manifest.json'
         ];
         $this->restricted = ['/', 'faqs'];
+        $this->restrictedCountries = ['GB', 'DK', 'LT', 'US'];
     }
 
     #[ArrayShape(['html' => "mixed", 'time' => ""])]
@@ -122,6 +124,9 @@ class CacheHelper {
     public function recacheSlug(string $source): void
     {
         $this->cache->delete('page_'.md5($source));
+        foreach ($this->restrictedCountries as $cc) {
+            $this->cache->delete('page_'.md5($source).md5($cc));
+        }
         $this->getHtml(null, $source, null);
     }
 
@@ -135,8 +140,8 @@ class CacheHelper {
             $url = $this->baseURL . $source;
         }
 
-        if(in_array($source, $this->restricted) || $this->locationHelper->getCountryCode() == 'US') {
-            $cacheKey = 'page_' . md5($url).($this->locationHelper->getCountryCode());
+        if(in_array($source, $this->restricted) || in_array($this->locationHelper->getCountryCode(), $this->restrictedCountries)) {
+            $cacheKey = 'page_' . md5($url).md5($this->locationHelper->getCountryCode());
         } else {
             $cacheKey = 'page_' . md5($url);
         };

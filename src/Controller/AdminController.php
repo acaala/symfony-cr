@@ -24,7 +24,7 @@ class AdminController extends AbstractController
     public function recacheSlug(CacheHelper $cacheHelper, string $slug, Request $request): Response
     {
         $cacheHelper->recacheSlug($slug);
-        return $this->json($request->getContent());
+        return $this->json('Recached');
     }
 
     #[Route('/{slug}/clear', name: 'app_admin_clear')]
