@@ -4,6 +4,7 @@ namespace App\Services;
 
 use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class CacheHelper {
     private CacheInterface $cache;
@@ -146,7 +147,9 @@ class CacheHelper {
             $cacheKey = 'page_' . md5($url);
         };
 
-        return $this->cache->get($cacheKey, function () use ($url) {
+        return $this->cache->get($cacheKey, function (ItemInterface $item) use ($url) {
+//            expire after 1 day.
+            $item->expiresAfter(86400);
             $opts = [
                 "http" => [
                     "method" => "POST",
