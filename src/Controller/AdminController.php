@@ -21,10 +21,10 @@ class AdminController extends AbstractController
         return $this->render('admin.html.twig', ['cc' => $countryCode, 'assets' => $assets]);
     }
     #[Route('/recache/{slug}')]
-    public function recacheSlug(CacheHelper $cacheHelper, string $slug): Response
+    public function deleteSlugCache(CacheHelper $cacheHelper, string $slug): Response
     {
-        $cacheHelper->recacheSlug($slug);
-        return $this->json('Recached');
+        $deleted = $cacheHelper->deleteSlugCache($slug);
+        return $this->json($deleted);
     }
 
     #[Route('/{slug}/clear', name: 'app_admin_clear')]

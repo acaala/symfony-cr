@@ -122,12 +122,13 @@ class CacheHelper {
         return ['size' => $size, 'time' => $time];
     }
 
-    public function recacheSlug(string $source): void
+    public function deleteSlugCache(string $source): string
     {
-        $this->cache->delete('page_'.md5($source));
+        $this->cache->delete('page_'.md5($this->baseURL.$source));
         foreach ($this->restrictedCountries as $cc) {
-            $this->cache->delete('page_'.md5($source).md5($cc));
+            $this->cache->delete('page_'.md5($this->baseURL.$source).md5($cc));
         }
+        return 'deleted';
     }
 
     public function getHtml(?string $nestedSlug, string $source, ?string $article): string
