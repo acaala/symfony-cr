@@ -128,7 +128,6 @@ class CacheHelper {
         foreach ($this->restrictedCountries as $cc) {
             $this->cache->delete('page_'.md5($source).md5($cc));
         }
-        $this->getHtml(null, $source, null);
     }
 
     public function getHtml(?string $nestedSlug, string $source, ?string $article): string

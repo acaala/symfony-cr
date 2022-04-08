@@ -21,7 +21,7 @@ class AdminController extends AbstractController
         return $this->render('admin.html.twig', ['cc' => $countryCode, 'assets' => $assets]);
     }
     #[Route('/recache/{slug}')]
-    public function recacheSlug(CacheHelper $cacheHelper, string $slug, Request $request): Response
+    public function recacheSlug(CacheHelper $cacheHelper, string $slug): Response
     {
         $cacheHelper->recacheSlug($slug);
         return $this->json('Recached');
