@@ -25,3 +25,32 @@ services:
     # please note that last definitions always *replace* previous ones
 
 
+    App\Services\CacheHelper:
+        arguments:
+            $assetUrls: {
+                            'scripts/runtime.js': $this->baseURL.'wp-includes/js/dist/vendor/regenerator-runtime.min.js',
+                            'scripts/main.js': $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/main.js'.$this->v,
+                            'scripts/landing.js': $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/landing.js'.$this->v,
+                            'scripts/prices.js': $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/prices.js'.$this->v,
+                            'scripts/guides.js': $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/guides.js'.$this->v,
+                            'scripts/dictionary.js': $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/dictionary.js'.$this->v,
+                            'scripts/nft-calendar.js': $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/nft-calendar.js'.$this->v,
+                            'scripts/support.js': $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/support.js'.$this->v,
+                            'scripts/events.js': $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/events.js'.$this->v,
+                            'scripts/polyfill.js': $this->baseURL.'wp-includes/js/dist/vendor/wp-polyfill.min.js',
+                            'scripts/cr7.js': $this->baseURL.'wp-content/plugins/contact-form-7/includes/js/index.js',
+                            'scripts/emailSubscribers.js': $this->baseURL.'wp-content/plugins/email-subscribers/lite/public/js/email-subscribers-public.js',
+                            'scripts/recaptcha.js': $this->baseURL.'wp-content/plugins/contact-form-7/modules/recaptcha/index.js',
+                            'css/main.css': $this->baseURL.'wp-content/themes/coinrivet/assets/styles/main.css'.$this->v,
+                            'css/style.min.css': $this->baseURL.'wp-includes/css/dist/block-library/style.min.css',
+                            'css/cr7.css': $this->baseURL.'wp-content/plugins/contact-form-7/includes/css/styles.css',
+                            'css/emailSubscribers.css': $this->baseURL.'wp-content/plugins/email-subscribers/lite/public/css/email-subscribers-public.css',
+                            'icon/favicon.ico': $this->baseURL.'wp-content/themes/coinrivet/favicon/favicon.ico',
+                            'icon/apple-touch-icon.png': $this->baseURL.'wp-content/themes/coinrivet/favicon/apple-touch-icon.png',
+                            'icon/android-chrome-192x192.png': $this->baseURL.'wp-content/themes/coinrivet/favicon/android-chrome-192x192.png',
+                            'icon/android-chrome-512x512.png': $this->baseURL.'wp-content/themes/coinrivet/favicon/android-chrome-512x512.png',
+                            'icon/favicon-16x16.png': $this->baseURL.'wp-content/themes/coinrivet/favicon/favicon-16x16.png',
+                            'icon/favicon-32x32.png': $this->baseURL.'wp-content/themes/coinrivet/favicon/favicon-32x32.png',
+                            'manifest/manifest.json': $this->baseURL.'wp-content/themes/coinrivet/favicon/manifest.json'
+            };
+
