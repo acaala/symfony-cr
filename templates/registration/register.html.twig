@@ -1,0 +1,27 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Register{% endblock %}
+{% block body %}
+    <section class="text-gray-600 body-font">
+        <div class="container px-5 py-24 mx-auto flex flex-wrap items-center">
+            <div class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:mx-auto w-full mt-10 md:mt-0">
+                <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Sign Up</h2>
+                {{ form_start(registrationForm) }}
+                <div class="relative mb-4">
+                    <label for="firstName" class="leading-7 text-sm text-gray-600">First Name</label>
+                    {{ form_row(registrationForm.firstName, {label: false}) }}
+                </div>
+                <div class="relative mb-4">
+                    <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
+                    {{ form_row(registrationForm.email, {label: false}) }}
+                </div>
+                <div class="relative mb-4">
+                    <label for="email" class="leading-7 text-sm text-gray-600">Password</label>
+                    {{ form_row(registrationForm.plainPassword, {label: false}) }}
+                </div>
+                <button type="submit" class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Register</button>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}
