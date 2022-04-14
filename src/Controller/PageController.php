@@ -21,7 +21,7 @@ class PageController extends AbstractController
         }
     }
 
-    #[Route('/{slug}', priority: 1)]
+    #[Route('/{slug}', name: "app_page", priority: 1)]
     public function page(string $slug, CacheHelper $cacheHelper): Response
     {
         if(isset($_GET)) {

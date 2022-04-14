@@ -6,8 +6,10 @@ use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -21,8 +23,9 @@ class CacheHelper {
     private array $restricted;
     private array $restrictedCountries;
     private KernelInterface $kernel;
+    private RouterInterface $router;
 
-    public function __construct(CacheInterface $cache, ScrubUrlHelper $scrubUrlHelper, LocationHelper $locationHelper, array $assetUrls, KernelInterface $kernel)
+    public function __construct(CacheInterface $cache, ScrubUrlHelper $scrubUrlHelper, LocationHelper $locationHelper, array $assetUrls, KernelInterface $kernel, RouterInterface $router)
     {
         $this->locationHelper = $locationHelper;
         $this->cache = $cache;
@@ -33,6 +36,7 @@ class CacheHelper {
         $this->restricted = ['/', 'faqs'];
         $this->restrictedCountries = ['GB', 'DK', 'LT', 'US'];
         $this->kernel = $kernel;
+        $this->router = $router;
     }
 
     #[ArrayShape(['html' => "mixed", 'time' => ""])]
@@ -141,7 +145,8 @@ class CacheHelper {
                 ]
             ];
             $context = stream_context_create($opts);
-            $htmlString = file_get_contents($url, false, $context);
+            $htmlString = @file_get_contents($url, false, $context);
+            if($htmlString == null) return new RedirectResponse($this->router->generate("app_page", ['slug' => '404-not-found']));
             return $this->scrubHelper->scrubUrls($htmlString, $this->assetUrls);
         });
     }
