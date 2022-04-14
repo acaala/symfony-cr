@@ -1,8 +1,12 @@
-<div class="bg-gray-700 py-2 px-4 text-center flex w-full items-center">
-    <a href="/admin" class="sm:text-3xl text-2xl font-medium title-font text-gray-100">Admin</a>
+<div class="bg-gray-700 py-2 px-4 text-center flex w-full items-center font-sans">
+    <a href="{{ path('app_admin') }}" class="text-xl font-medium title-font text-gray-100">Admin</a>
     <div class="flex space-x-10 w-full justify-center">
         {% set time = time ? time * 1000 : '-' %}
-        <h2 class="tracking-widest text-base title-font font-medium text-gray-400 mb-0">Time: {{time|round(2, 'floor')}} ms</h2>
-        <h2 class="tracking-widest text-base title-font font-medium text-gray-400 mb-0">Size: {{size ? size : '-'}} Bytes</h2>
+        <h2 class="tracking-widest text-base title-font font-medium text-gray-300 mb-0"><span class="text-xs text-gray-400">Time:</span> {{time|round(2, 'floor')}} ms</h2>
+        <h2 class="tracking-widest text-base title-font font-medium text-gray-300 mb-0"><span class="text-xs text-gray-400">Size:</span> {{size ? size : '-'}} Bytes</h2>
+    </div>
+    <div class="flex items-center space-x-4">
+        <p class="m-0 text-gray-400">{{ app.user.firstName }}</p>
+        <a class="text-gray-300" href="{{ path('app_logout') }}">Logout</a>
     </div>
 </div>

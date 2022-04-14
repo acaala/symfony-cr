@@ -1,5 +1,7 @@
 {% extends "base.html.twig" %}
 {% block body %}
-{#{% include "components/InfoHeader.html.twig" with {time, size} %}#}
+    {% if is_granted('ROLE_USER') %}
+        {% include "components/InfoHeader.html.twig" with {time, size} %}
+    {% endif %}
 {{html|raw}}
 {% endblock %}

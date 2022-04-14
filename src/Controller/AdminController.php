@@ -9,11 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin')]
+#[Route('/admin', priority: 2)]
+
 class AdminController extends AbstractController
 {
 
-    #[Route('/', name: 'app_admin')]
+    #[Route('/', name: 'app_admin', priority: 2 )]
     public function admin(LocationHelper $locationHelper, CacheHelper $cacheHelper): Response
     {
         $countryCode = $locationHelper->getCountryCode();
@@ -23,11 +24,12 @@ class AdminController extends AbstractController
     #[Route('/recache/{slug}')]
     public function deleteSlugCache(CacheHelper $cacheHelper, string $slug): Response
     {
+
         $deleted = $cacheHelper->deleteSlugCache($slug);
         return $this->json($deleted);
     }
 
-    #[Route('/{slug}/clear', name: 'app_admin_clear')]
+    #[Route('/admin/{slug}/clear', name: 'app_admin_clear')]
     public function adminCacheClear(CacheHelper $cacheHelper, string $slug): Response
     {
         if($slug == 'home') $slug = '/';
