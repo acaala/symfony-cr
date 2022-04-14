@@ -26,7 +26,7 @@ services:
 
 
     App\Services\CacheHelper:
-        bind:
+        arguments:
             $assetUrls: {
                             'scripts/runtime.js': $this->baseURL.'wp-includes/js/dist/vendor/regenerator-runtime.min.js',
                             'scripts/main.js': $this->baseURL.'wp-content/themes/coinrivet/assets/scripts/main.js'.$this->v,
