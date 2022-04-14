@@ -17,4 +17,13 @@ class ApiController extends AbstractController
         $deleted = $cacheHelper->deleteSlugCache($slug);
         return $this->json($deleted);
     }
+
+    #[Route('/clear-all-cache/{key}')]
+    public function clearAllCacheFromCR(CacheHelper $cacheHelper, string $key): Response
+    {
+        if ($key != $_ENV['API_KEY']) throw $this->createNotFoundException('404 Page Not Found');
+        $cacheHelper->clearAllCache();
+
+        return $this->json('All cache deleted');
+    }
 }

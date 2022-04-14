@@ -3,6 +3,11 @@
 namespace App\Services;
 
 use JetBrains\PhpStorm\ArrayShape;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Contracts\Cache\ItemInterface;
 
@@ -15,8 +20,9 @@ class CacheHelper {
     private LocationHelper $locationHelper;
     private array $restricted;
     private array $restrictedCountries;
+    private KernelInterface $kernel;
 
-    public function __construct(CacheInterface $cache, ScrubUrlHelper $scrubUrlHelper, LocationHelper $locationHelper, array $assetUrls)
+    public function __construct(CacheInterface $cache, ScrubUrlHelper $scrubUrlHelper, LocationHelper $locationHelper, array $assetUrls, KernelInterface $kernel)
     {
         $this->locationHelper = $locationHelper;
         $this->cache = $cache;
@@ -26,6 +32,7 @@ class CacheHelper {
         $this->assetUrls = $assetUrls;
         $this->restricted = ['/', 'faqs'];
         $this->restrictedCountries = ['GB', 'DK', 'LT', 'US'];
+        $this->kernel = $kernel;
     }
 
     #[ArrayShape(['html' => "mixed", 'time' => ""])]
@@ -137,5 +144,20 @@ class CacheHelper {
             $htmlString = file_get_contents($url, false, $context);
             return $this->scrubHelper->scrubUrls($htmlString, $this->assetUrls);
         });
+    }
+
+    public function clearAllCache(): Response
+    {
+        $application = new Application($this->kernel);
+        $application->setAutoExit(false);
+
+        $input = new ArrayInput([
+            'command' => 'cache:clear'
+        ]);
+        $output = new NullOutput();
+        $application->run($input, $output);
+
+        return new Response("");
+
     }
 }
