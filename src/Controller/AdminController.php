@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Services\CacheHelper;
 use App\Services\LocationHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,7 +23,6 @@ class AdminController extends AbstractController
     #[Route('/recache/{slug}')]
     public function deleteSlugCache(CacheHelper $cacheHelper, string $slug): Response
     {
-
         $deleted = $cacheHelper->deleteSlugCache($slug);
         return $this->json($deleted);
     }
